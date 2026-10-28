@@ -51,7 +51,11 @@ export function createOpencode({ bin = "opencode", workspace }) {
     try {
       const pid = Number(await fs.readFile(pidFile, "utf8"));
       if (!(pid > 0)) return;
-      const { stdout } = await execFileAsync("ps", ["-o", "args=", "-p", String(pid)]);
+      // Kill it only if that pid really is an "opencode serve" (pids are reused).
+      const { stdout } =
+        process.platform === "win32"
+          ? await execFileAsync("powershell", ["-NoProfile", "-Command", `(Get-CimInstance Win32_Process -Filter 'ProcessId=${pid}').CommandLine`])
+          : await execFileAsync("ps", ["-o", "args=", "-p", String(pid)]);
       if (stdout.includes("opencode") && stdout.includes(" serve ")) process.kill(pid, "SIGTERM");
     } catch {
       // no pid file, or the process is already gone
@@ -65,6 +69,7 @@ export function createOpencode({ bin = "opencode", workspace }) {
     const password = randomBytes(24).toString("base64url");
 
     const proc = spawn(bin, ["serve", "--port", String(port), "--hostname", "127.0.0.1"], {
+      windowsHide: true, // no console window on Windows
       cwd: workspace,
       env: { ...process.env, OPENCODE_SERVER_PASSWORD: password },
       stdio: ["ignore", "ignore", "pipe"],

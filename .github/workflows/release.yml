@@ -1,0 +1,28 @@
+# On a version tag (e.g. v0.2.0): test, build and publish the files the
+# installers download (drawbook.tar.gz for macOS/Linux, drawbook.zip for Windows).
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - run: sh scripts/package.sh
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" release/drawbook.tar.gz release/drawbook.zip --title "Drawbook $GITHUB_REF_NAME" --generate-notes
