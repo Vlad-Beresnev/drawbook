@@ -1,0 +1,230 @@
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #fff;
+}
+
+/* Colours follow Excalidraw's own light and dark palettes. */
+.app {
+  --sidebar-bg: #f8f9fa;
+  --sidebar-border: #e3e3e8;
+  --sidebar-text: #1b1b1f;
+  --sidebar-muted: #7a7a85;
+  --item-hover: #ececf4;
+  --item-active: #e0dfff;
+  --accent: #6965db;
+  --danger: #d63c3c;
+
+  display: flex;
+  height: 100vh;
+}
+
+.app[data-theme="dark"] {
+  --sidebar-bg: #1b1b1f;
+  --sidebar-border: #2e2e36;
+  --sidebar-text: #e3e3e8;
+  --sidebar-muted: #8b8b96;
+  --item-hover: #2a2a33;
+  --item-active: #403e6a;
+  --accent: #a8a5ff;
+  --danger: #ff8383;
+}
+
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+  font-size: 13px;
+  color: var(--sidebar-text);
+}
+
+.sidebar.collapsed {
+  width: 48px;
+}
+
+.sidebar header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px;
+  border-bottom: 1px solid var(--sidebar-border);
+}
+
+.sidebar.collapsed header {
+  flex-direction: column;
+  border-bottom: none;
+}
+
+.logo {
+  flex: 1;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.sidebar button {
+  font: inherit;
+  color: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.sidebar .icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  color: var(--sidebar-muted);
+}
+
+.sidebar .icon:hover {
+  background: var(--item-hover);
+  color: var(--sidebar-text);
+}
+
+.error-dot {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--danger);
+}
+
+.sidebar .new {
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--accent);
+  color: var(--sidebar-bg);
+}
+
+.sidebar.collapsed .new {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  font-size: 16px;
+}
+
+.drawings {
+  flex: 1;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+}
+
+.drawings li {
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+}
+
+.drawings li:hover {
+  background: var(--item-hover);
+}
+
+.drawings li.active {
+  background: var(--item-active);
+}
+
+.open {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 7px 8px;
+  text-align: left;
+}
+
+.open .name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.open .modified {
+  font-size: 11px;
+  color: var(--sidebar-muted);
+}
+
+.sidebar .delete {
+  padding: 0 10px;
+  font-size: 16px;
+  color: var(--sidebar-muted);
+  visibility: hidden;
+}
+
+.drawings li:hover .delete {
+  visibility: visible;
+}
+
+.sidebar .delete:hover {
+  color: var(--danger);
+}
+
+.status {
+  padding: 8px 12px;
+  border-top: 1px solid var(--sidebar-border);
+  color: var(--sidebar-muted);
+}
+
+.status.error {
+  color: var(--danger);
+}
+
+.canvas {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+
+/* AI Drawer button: in Excalidraw's footer row, left of its 36px "?" button
+   (right: 16px), with the same island look. */
+.ai-drawer-button {
+  position: fixed;
+  right: 60px;
+  bottom: 16px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 8px;
+  background: #ececf4;
+  box-shadow: 0 0 0 1px #ffffff;
+  color: var(--sidebar-text);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.app[data-theme="dark"] .ai-drawer-button {
+  background: #232329;
+  box-shadow: 0 0 0 1px #121212;
+}
+
+.ai-drawer-button:hover {
+  color: var(--accent);
+}
+
+.ai-drawer-button[aria-pressed="true"] {
+  background: var(--item-active);
+  color: var(--accent);
+}

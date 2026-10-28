@@ -1,0 +1,25 @@
+{
+  "name": "drawbook",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "predev": "node scripts/copy-fonts.js",
+    "dev": "node server/index.js & vite",
+    "prebuild": "node scripts/copy-fonts.js",
+    "build": "vite build",
+    "start": "node server/index.js",
+    "test": "node --test",
+    "install-app": "npm run build && sh scripts/install-launch-agent.sh",
+    "uninstall-app": "sh scripts/uninstall-launch-agent.sh"
+  },
+  "dependencies": {
+    "@excalidraw/excalidraw": "^0.18.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.2",
+    "vite": "^8.3.5"
+  }
+}
