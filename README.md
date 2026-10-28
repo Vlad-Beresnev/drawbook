@@ -70,14 +70,16 @@ Libraries: open **Library** (top right) → **Browse libraries**, and add any li
 
 Click **✦ AI Drawer** (bottom right, next to `?`). It is a chat about the open drawing.
 
-- **Models.** Free **OpenCode Zen** models work at once, with a daily limit. To use your **ChatGPT plan**,
-  connect OpenAI once (the installer prints the exact command):
+- **Models.** Connect your **ChatGPT plan** once (the installer prints the exact command):
 
   ```sh
   ~/.drawbook/opencode/opencode auth login openai
   ```
 
-  The model list shows only what you can use: the free Zen models, and OpenAI models when OpenAI is connected.
+  The model list shows the free **OpenCode Zen** models, and OpenAI models when OpenAI is connected.
+  **Known problem:** right now the free Zen models answer "Free usage limit reached" when Drawbook uses
+  them, even on a new computer ([#4](https://github.com/Vlad-Beresnev/drawbook/issues/4)). Use OpenAI until
+  this is solved.
 - **Selection.** Select shapes before you ask: the AI gets them as text and as a picture.
 - **Attachments.** `+`, drag and drop, or paste: images, PDF, text (up to 10 files, 10 MB each).
 - **History.** Each drawing has its own chats: 🕘 lists them, ✎ starts a new one.
