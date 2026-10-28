@@ -32,7 +32,15 @@ const MIME_TYPES = {
   ".wasm": "application/wasm",
 };
 
-const AI_WORKSPACE = process.env.DRAWBOOK_AI_WORKSPACE ?? path.join(os.homedir(), "Library", "Application Support", "Drawbook", "ai-workspace");
+// Where app data lives on each system (the AI workspace and project copies).
+function appDataDir() {
+  const home = os.homedir();
+  if (process.platform === "darwin") return path.join(home, "Library", "Application Support", "Drawbook");
+  if (process.platform === "win32") return path.join(process.env.LOCALAPPDATA ?? path.join(home, "AppData", "Local"), "Drawbook");
+  return path.join(process.env.XDG_DATA_HOME ?? path.join(home, ".local", "share"), "drawbook");
+}
+
+const AI_WORKSPACE = process.env.DRAWBOOK_AI_WORKSPACE ?? path.join(appDataDir(), "ai-workspace");
 
 const storage = createStorage(DRAWINGS_DIR);
 const opencode = createOpencode({ bin: process.env.OPENCODE_BIN ?? "opencode", workspace: AI_WORKSPACE });
